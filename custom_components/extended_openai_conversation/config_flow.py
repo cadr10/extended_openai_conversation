@@ -1,15 +1,12 @@
 """Config flow for OpenAI Conversation integration."""
 from __future__ import annotations
-
 import logging
 import types
 from types import MappingProxyType
 from typing import Any
-
 from openai._exceptions import APIConnectionError, AuthenticationError
 import voluptuous as vol
 import yaml
-
 from homeassistant import config_entries
 from homeassistant.const import CONF_API_KEY, CONF_NAME
 from homeassistant.core import HomeAssistant
@@ -24,40 +21,7 @@ from homeassistant.helpers.selector import (
     SelectSelectorMode,
     TemplateSelector,
 )
-
-from .const import (
-    CONF_API_VERSION,
-    CONF_ATTACH_USERNAME,
-    CONF_BASE_URL,
-    CONF_CHAT_MODEL,
-    CONF_CONTEXT_THRESHOLD,
-    CONF_CONTEXT_TRUNCATE_STRATEGY,
-    CONF_FUNCTIONS,
-    CONF_MAX_FUNCTION_CALLS_PER_CONVERSATION,
-    CONF_MAX_TOKENS,
-    CONF_ORGANIZATION,
-    CONF_PROMPT,
-    CONF_SKIP_AUTHENTICATION,
-    CONF_TEMPERATURE,
-    CONF_TOP_P,
-    CONF_USE_TOOLS,
-    CONTEXT_TRUNCATE_STRATEGIES,
-    DEFAULT_ATTACH_USERNAME,
-    DEFAULT_CHAT_MODEL,
-    DEFAULT_CONF_BASE_URL,
-    DEFAULT_CONF_FUNCTIONS,
-    DEFAULT_CONTEXT_THRESHOLD,
-    DEFAULT_CONTEXT_TRUNCATE_STRATEGY,
-    DEFAULT_MAX_FUNCTION_CALLS_PER_CONVERSATION,
-    DEFAULT_MAX_TOKENS,
-    DEFAULT_NAME,
-    DEFAULT_PROMPT,
-    DEFAULT_SKIP_AUTHENTICATION,
-    DEFAULT_TEMPERATURE,
-    DEFAULT_TOP_P,
-    DEFAULT_USE_TOOLS,
-    DOMAIN,
-)
+from .const import *
 from .helpers import validate_authentication
 
 _LOGGER = logging.getLogger(__name__)
@@ -90,9 +54,10 @@ DEFAULT_OPTIONS = types.MappingProxyType(
         CONF_USE_TOOLS: DEFAULT_USE_TOOLS,
         CONF_CONTEXT_THRESHOLD: DEFAULT_CONTEXT_THRESHOLD,
         CONF_CONTEXT_TRUNCATE_STRATEGY: DEFAULT_CONTEXT_TRUNCATE_STRATEGY,
+        CONF_WORKSPACE_SLUG: DEFAULT_WORKSPACE_SLUG,
+        CONF_THREAD_SLUG: DEFAULT_THREAD_SLUG,
     }
 )
-
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
     """Validate the user input allows us to connect.
@@ -187,8 +152,8 @@ class OptionsFlow(config_entries.OptionsFlow):
         """Return a schema for OpenAI completion options."""
         if not options:
             options = DEFAULT_OPTIONS
-
-        return {
+            
+       return {
             vol.Optional(
                 CONF_PROMPT,
                 description={"suggested_value": options[CONF_PROMPT]},
@@ -202,6 +167,23 @@ class OptionsFlow(config_entries.OptionsFlow):
                 },
                 default=DEFAULT_CHAT_MODEL,
             ): str,
+            
+            vol.Optional(
+                CONF_WORKSPACE_SLUG, 
+                description={
+                    "suggested_value": options.get(CONF_WORKSPACE_SLUG, DEFAULT_WORKSPACE_SLUG)
+                }, 
+                default=DEFAULT_WORKSPACE_SLUG
+            ): TemplateSelector(),
+            
+            vol.Optional(
+                CONF_THREAD_SLUG, 
+                description={
+                    "suggested_value": options.get(CONF_THREAD_SLUG, DEFAULT_THREAD_SLUG)
+                }, 
+                default=DEFAULT_THREAD_SLUG
+            ): TemplateSelector(),
+            
             vol.Optional(
                 CONF_MAX_TOKENS,
                 description={"suggested_value": options[CONF_MAX_TOKENS]},
@@ -260,3 +242,4 @@ class OptionsFlow(config_entries.OptionsFlow):
                 )
             ),
         }
+            
