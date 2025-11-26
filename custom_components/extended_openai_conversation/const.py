@@ -84,6 +84,7 @@ DEFAULT_CONF_FUNCTIONS = [
         "function": {"type": "native", "name": "execute_service"},
     }
 ]
+
 CONF_ATTACH_USERNAME = "attach_username"
 DEFAULT_ATTACH_USERNAME = False
 CONF_USE_TOOLS = "use_tools"
@@ -95,5 +96,9 @@ CONF_CONTEXT_TRUNCATE_STRATEGY = "context_truncate_strategy"
 DEFAULT_CONTEXT_TRUNCATE_STRATEGY = CONTEXT_TRUNCATE_STRATEGIES[0]["key"]
 
 SERVICE_QUERY_IMAGE = "query_image"
-
 CONF_PAYLOAD_TEMPLATE = "payload_template"
+
+CONF_WORKSPACE_SLUG = "workspace_slug"
+DEFAULT_WORKSPACE_SLUG = "default"
+CONF_THREAD_SLUG = "thread_slug"
+DEFAULT_THREAD_SLUG = "default"
