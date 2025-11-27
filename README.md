@@ -1,5 +1,7 @@
 # Extended OpenAI Conversation
-This is custom component of Home Assistant. This fork only supports anythingllm API. OpenAI compatible API restricts some of anythingllm's capabilities. 
+This is custom component of Home Assistant. This fork only supports anythingllm API. OpenAI compatible API restricts some of anythingllm's capabilities.
+
+The API field expects something as http://anythingllm.address/api/v1
 
 Derived from [OpenAI Conversation](https://www.home-assistant.io/integrations/openai_conversation/) with some new features such as call-service.
 
