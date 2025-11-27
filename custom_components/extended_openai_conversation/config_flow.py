@@ -153,7 +153,7 @@ class OptionsFlow(config_entries.OptionsFlow):
         if not options:
             options = DEFAULT_OPTIONS
             
-       return {
+        return {
             vol.Optional(
                 CONF_PROMPT,
                 description={"suggested_value": options[CONF_PROMPT]},
